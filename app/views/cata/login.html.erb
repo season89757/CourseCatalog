@@ -1,0 +1,17 @@
+<h1>Cata#login</h1>
+<div>
+  <% if @error %>
+    <%= @error %>
+  <% end %>
+</div>
+<div align = center>
+  <%= form_tag("login", method: "get") do %>
+    <%= label_tag(:q_username, "Username")%>
+    <%= text_field_tag(:username) %><br>
+    <%= label_tag(:q_password, "Password")%>
+    <%= password_field_tag(:password) %><br>
+
+    <%= submit_tag("Login")%>
+
+    <% end %>
+</div>

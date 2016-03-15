@@ -1,0 +1,20 @@
+<h1>Welcome to Course Catalog!</h1>
+
+<div id='bar'>
+<% if session[:user_id] %>
+  <% user = User.find_by(id: session[:user_id])%>
+  <div align = center >
+    <%= link_to "Logout", cata_logout_path %><br>
+  </div>
+
+  logged in as <%= user.display_name %><br>
+  <br>
+  <br>
+  <%= link_to "Courses", cata_courses_path %><br>
+  <%= link_to "Subjects", cata_subjects_path %><br>
+  <%= link_to "Instructors", cata_instructors_path %><br>
+<% else %>
+  <%= link_to "Login", cata_login_path %><br>
+  <%= link_to "Register", cata_register_path %><br>
+<% end %>
+</div>

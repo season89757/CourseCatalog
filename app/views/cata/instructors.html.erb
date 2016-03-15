@@ -1,0 +1,5 @@
+<h1>Instructors List</h1>
+<% instructor = Instructor.all %>
+<% instructor.each do |i|%>
+<p> <%= i.first %>  <%= i.last %> </p>
+<% end %>
