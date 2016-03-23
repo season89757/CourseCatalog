@@ -1,3 +1,4 @@
+require 'pry-byebug'
 class CataController < ApplicationController
   def index
     if params[:user_id]
@@ -61,5 +62,45 @@ class CataController < ApplicationController
     if logged_in? then session[:user_id]=nil end
     redirect_to cata_index_path
   end
+
+  def search
+    if params[:searchbtn]
+      @we_have=[]
+      @results=[]
+      @subject = Subject.where("name = ?",params[:selection])
+      @temp = @subject.first
+      @we_have.append(@temp.subject_id)
+
+      @courses =Course.where( "name like?","%#{params[:terms]}%")
+      @courses.each do |course|
+        @should_be = []
+        @subjects = course.subjects
+        @subjects.each do |s|
+          @should_be.append(s["id"])
+        end
+        if @should_be.include?@we_have[0]
+          @results = @results.append(course)
+        end
+      end
+
+      if @results.length > 0
+        @results = @results.uniq
+      end
+
+    #  if !params[:commit].nil?
+      #  Enrollment.new(:username=>'liuchao',:coursename => params[:commit]).save
+
+    #  end
+
+    end
+
+  end
+
+  def enroll
+    Enrollment.new(:username=>'hahahaha',:coursename => params[:coursename]).save
+    redirect_to cata_index_path
+  end
+
+
 
 end

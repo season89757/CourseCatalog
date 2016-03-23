@@ -13,6 +13,13 @@
   <%= link_to "Courses", cata_courses_path %><br>
   <%= link_to "Subjects", cata_subjects_path %><br>
   <%= link_to "Instructors", cata_instructors_path %><br>
+  <%= link_to "Search Courses", cata_search_path %><br>
+
+  <br><br><h3>All the courses you have enrolled in: </h3>
+  <% Enrollment.all.each do |e|%>
+  <%= e.coursename%><br>
+  <% end %>
+
 <% else %>
   <%= link_to "Login", cata_login_path %><br>
   <%= link_to "Register", cata_register_path %><br>
