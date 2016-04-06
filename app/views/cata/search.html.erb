@@ -1,37 +1,25 @@
 <!DOCTYPE html>
 <html>
 <body>
-
+<script src="search_course.js" type="text/javascript" charset='utf-8'></script>
 <h1>Search for your courses:</h1>
 
 <br>
 <div align=center>
-  <%= form_tag("search", method: "get", id:'search') do %>
+  <%= form_tag("show_results", method: "get", id:'search',remote:true) do %>
   Subject:
-  <%= select_tag "selection",options_for_select(Subject.all.collect{ |s| [s.name]}) %>
-  <br>
-  <br>
+  <select name = "selection" onchange = "any_change()" class="form-control">
+    <%= Subject.all.each do |s| %>
+    <option><%=s.name%></option>
+    <%end%>
   Courses:
-  <%= text_field_tag(:terms) %>
-  <%= submit_tag "Search", name:"searchbtn" %>
+  <input type="string" class="form-control" oninput = "any_change()" name="terms">
   <% end %>
 </div>
 
-<%if params[:searchbtn]%>
-<%if @results.length > 0 %>
-<h1 align=center>Search Result</h1>
-
-  <% @results.each do |course| %>
-    <%= course.id %>  <%= course.name %>
-    <%= button_to 'Enroll',{:controller=>"cata",:action=>"enroll",:coursename=>course.name},:method=>:post%>
-  <% end %>
-
-<% else %>
-
-
-  <p>no course found that matches your query!</p>
-<% end %>
-<% end%>
+<div id="show_search_results">
+  <%=render 'show_search_results'%>
+</div>
 
 </body>
 </html>

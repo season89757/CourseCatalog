@@ -1,0 +1,13 @@
+<p>good</p>
+<%if @results %>
+<p>good 2</p>
+<h1 align=center>Search Result:</h1>
+
+  <% @results.each do |course| %>
+    <%= course.id %>  <%= course.name %>
+    <%= button_to 'Enroll',{:controller=>"cata",:action=>"enroll",:coursename=>course.name},:method=>:post%>
+  <% end %>
+
+<% else %>
+  <p>no course found that matches your query!</p>
+<% end %>

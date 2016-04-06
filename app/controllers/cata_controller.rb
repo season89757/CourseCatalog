@@ -64,35 +64,39 @@ class CataController < ApplicationController
   end
 
   def search
-    if params[:searchbtn]
-      @we_have=[]
-      @results=[]
-      @subject = Subject.where("name = ?",params[:selection])
-      @temp = @subject.first
-      @we_have.append(@temp.subject_id)
 
-      @courses =Course.where( "name like?","%#{params[:terms]}%")
-      @courses.each do |course|
-        @should_be = []
-        @subjects = course.subjects
-        @subjects.each do |s|
-          @should_be.append(s["id"])
-        end
-        if @should_be.include?@we_have[0]
-          @results = @results.append(course)
-        end
+  end
+
+  def show_results
+    @we_have=[]
+    @results=[]
+    @subject = Subject.where("name = ?",params[:selection])
+    @temp = @subject.first
+    @we_have.append(@temp.subject_id)
+
+    @courses =Course.where( "name like?","%#{params[:terms]}%")
+    @courses.each do |course|
+      @should_be = []
+      @subjects = course.subjects
+      @subjects.each do |s|
+        @should_be.append(s["id"])
+
       end
-
-      if @results.length > 0
-        @results = @results.uniq
+      if @should_be.include?@we_have[0]
+        @results = @results.append(course)
       end
-
-    #  if !params[:commit].nil?
-      #  Enrollment.new(:username=>'liuchao',:coursename => params[:commit]).save
-
-    #  end
-
     end
+
+    if @results.length > 0
+      @results = @results.uniq
+    end
+
+    #binding.pry
+
+    # respond_to do |format|
+    #   format.js
+    # end
+    #binding.pry
 
   end
 
