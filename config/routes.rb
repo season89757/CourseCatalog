@@ -29,6 +29,8 @@ Rails.application.routes.draw do
 
   get 'cata/show_results'
 
+  post 'cata/show_results'
+
   resource :cata do
     post 'enroll',:on => :collection
   end

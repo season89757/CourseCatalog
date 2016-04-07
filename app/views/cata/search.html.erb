@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html>
 <body>
-<script src="search_course.js" type="text/javascript" charset='utf-8'></script>
+
 <h1>Search for your courses:</h1>
 
 <br>
 <div align=center>
-  <%= form_tag("show_results", method: "get", id:'search',remote:true) do %>
+  <%= form_tag("search", method: "post", id:"search",remote:true) do %>
   Subject:
+  <script src="search_course.js" type="text/javascript" charset='utf-8'></script>
   <select name = "selection" onchange = "any_change()" class="form-control">
+    <option>Any Subject</option>
     <%= Subject.all.each do |s| %>
     <option><%=s.name%></option>
     <%end%>
+  </select>
+  <br>
+  <br>
   Courses:
-  <input type="string" class="form-control" oninput = "any_change()" name="terms">
+  <input type="string" class="form-control" oninput = "any_change()" name="terms" value="Any Course"></input>
   <% end %>
 </div>
 

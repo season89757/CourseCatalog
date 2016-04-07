@@ -64,10 +64,67 @@ class CataController < ApplicationController
   end
 
   def search
+    if !params[:terms].nil?
+      if params[:selection]!="Any Subject"
+
+        if params[:terms]!="Any Course"
+          @we_have=[]
+          @results=[]
+          @subject = Subject.where("name = ?",params[:selection])
+          @temp = @subject.first
+          @we_have.append(@temp.subject_id)
+
+          @courses =Course.where( "name like?","%#{params[:terms]}%")
+          @courses.each do |course|
+            @should_be = []
+            @subjects = course.subjects
+            @subjects.each do |s|
+              @should_be.append(s["id"])
+            end
+
+            if @should_be.include?@we_have[0]
+              @results = @results.append(course)
+            end
+
+          end
+
+        else
+          @we_have=[]
+          @results=[]
+          @subject = Subject.where("name = ?",params[:selection])
+          @temp = @subject.first
+          @we_have.append(@temp.subject_id)
+
+          @courses =Course.all
+          @courses.each do |course|
+            @should_be = []
+            @subjects = course.subjects
+            @subjects.each do |s|
+              @should_be.append(s["id"])
+            end
+            if @should_be.include?@we_have[0]
+              @results = @results.append(course)
+            end
+          end
+        end
+
+      else
+        if params[:terms]!="Any Course"
+          @results = Course.where( "name like?","%#{params[:terms]}%")
+        else
+          @results = Course.all
+        end
+      end
+
+      if @results.length > 0
+        @results = @results.uniq
+      end
+    end
 
   end
 
   def show_results
+    redirect_to cata_index_path
     @we_have=[]
     @results=[]
     @subject = Subject.where("name = ?",params[:selection])
@@ -91,17 +148,10 @@ class CataController < ApplicationController
       @results = @results.uniq
     end
 
-    #binding.pry
-
-    # respond_to do |format|
-    #   format.js
-    # end
-    #binding.pry
-
   end
 
   def enroll
-    Enrollment.new(:username=>'hahahaha',:coursename => params[:coursename]).save
+    Enrollment.new(:username=>'Chao Liu',:coursename => params[:coursename]).save
     redirect_to cata_index_path
   end
 
